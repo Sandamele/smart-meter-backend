@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
         const date = new Date();
         const expiryDate = date.setDate(date.getDate() + 1)
 
-        return res.status(200).json({ data: { token, expiryDate: new Date(expiryDate) }, error: null });
+        return res.status(200).json({ data: { token, expiryDate: new Date(expiryDate), username: user.username }, error: null });
     } catch (error) {
         console.error(`❌${error}`)
         return res.status(500).json({ data: null, error: "Internal server error" });
