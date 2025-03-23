@@ -121,4 +121,19 @@ const updateUser = async (req, res) => {
         return res.status(500).json({ data: null, error: "Internal server error" });
     }
 }
-module.exports = { registerUser, loginUser, resetPassword, updateUser }
+const getUser = async (req, res) => {
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({ data: null, error: { message: "Unauthorized" } });
+        }
+        const userId = req.user.id;
+        const user = await prisma.user.findUnique({where: { id: userId}});
+        delete user.id;
+        delete user.passwords;
+        return res.status(200).json({ data: user, error: null })
+    } catch (error) {
+        console.error(`❌${error}`)
+        return res.status(500).json({ data: null, error: "Internal server error" });
+    }
+}
+module.exports = { registerUser, loginUser, resetPassword, updateUser, getUser }
