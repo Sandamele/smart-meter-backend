@@ -16,7 +16,7 @@ const addTransactionHistory = async (req, res) => {
     const vat = cost - Vat(cost);
     const subTotal = cost - vat
     const units = calculateElectricityUnits(subTotal, 2.7110);
-    const transactionHistory = await prisma.transactionHisotry.create({
+    const transactionHistory = await prisma.transactionHistory.create({
         data: {
             userId,
             beneficiaryId,
@@ -44,14 +44,14 @@ const getAllTransactionHistory = async (req, res) => {
         .json({ data: null, error: { message: "Unauthorized" } });
     }
     const userId = req.user.id;
-    const transactionHisotries = await prisma.transactionHisotry.findMany({
+    const transactionHisotries = await prisma.transactionHistory.findMany({
       where: { userId },
     });
-    const formatTransactionHisotry = transactionHisotries.map((transactionHisotry) => {
-      delete transactionHisotry.userId;
-      return transactionHisotry;
+    const formatTransactionHistory = transactionHisotries.map((transactionHistory) => {
+      delete transactionHistory.userId;
+      return transactionHistory;
     });
-    return res.status(200).json({ data: formatTransactionHisotry, error: null });
+    return res.status(200).json({ data: formatTransactionHistory, error: null });
   } catch (error) {
     console.error(`❌${error}`);
     return res.status(500).json({ data: null, error: "Internal server error" });
@@ -66,7 +66,7 @@ const getTransactionHistory = async (req, res) => {
     }
     const userId = req.user.id;
     const id = req.params.id
-    const transactionHisotries = await prisma.transactionHisotry.findUnique({
+    const transactionHisotries = await prisma.transactionHistory.findUnique({
       where: { userId, id },
     });
     if (transactionHisotries === null) {

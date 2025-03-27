@@ -20,7 +20,7 @@ model User {
   
   beneficiary Beneficiary[]
 
-  TransactionHisotry TransactionHisotry[]
+  TransactionHistory TransactionHistory[]
 }
 
 model Beneficiary {
@@ -35,10 +35,10 @@ model Beneficiary {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt @default(now())
 
-  TransactionHisotry TransactionHisotry[]
+  TransactionHistory TransactionHistory[]
 }
 
-model TransactionHisotry {
+model TransactionHistory {
   id            String      @id @default(uuid())
   beneficiaryId String
   beneficiary   Beneficiary @relation(fields: [beneficiaryId], references: [id])
