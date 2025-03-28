@@ -44,8 +44,9 @@ const getAllTransactionHistory = async (req, res) => {
         .json({ data: null, error: { message: "Unauthorized" } });
     }
     const userId = req.user.id;
+    const beneficiaryId = req.query.beneficiaryId;
     const transactionHisotries = await prisma.transactionHistory.findMany({
-      where: { userId },
+      where: { userId, beneficiaryId},
     });
     const formatTransactionHistory = transactionHisotries.map((transactionHistory) => {
       delete transactionHistory.userId;
@@ -65,7 +66,7 @@ const getTransactionHistory = async (req, res) => {
         .json({ data: null, error: { message: "Unauthorized" } });
     }
     const userId = req.user.id;
-    const id = req.params.id
+    const id = req.params.id.id
     const transactionHisotries = await prisma.transactionHistory.findUnique({
       where: { userId, id },
     });
