@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors({origin: "*"}));
 app.use(morgan("dev"));
 app.get("/", (req, res) => {
-    return res.send("<h1>Server currently running</h1>");
+    return res.status(200).json({serverRunning: true});
 })
 app.use("/api/v1/auth", authV1);
 app.use("/api/v1/beneficiaries", authenticate, beneficiaryV1);
